@@ -1,0 +1,30 @@
+rules_version = '2';
+
+// Reglas de Fase 1.
+// Principio: cada usuario únicamente puede leer y escribir SUS PROPIOS datos.
+// Las entradas son privadas por defecto (el campo isPrivate vive en el documento,
+// pero a nivel de seguridad ya estamos restringiendo todo a la propietaria/o).
+//
+// Nota para Fase 2 (página pública / invitaciones):
+// cuando se agregue la página pública limitada, vamos a necesitar abrir lectura
+// pública de un subconjunto de campos del perfil (nombre, foto, bio) — no de las
+// entradas del diario — y crear una colección separada para comentarios de
+// invitados con reglas propias de moderación. No reemplazar este archivo entero:
+// ampliarlo con reglas nuevas y específicas por colección.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /profiles/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    match /entries/{entryId} {
+      allow read, update, delete: if request.auth != null
+        && resource.data.uid == request.auth.uid;
+
+      allow create: if request.auth != null
+        && request.resource.data.uid == request.auth.uid;
+    }
+  }
+}

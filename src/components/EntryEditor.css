@@ -1,0 +1,25 @@
+.entry-editor {
+  padding: 28px 30px;
+  max-width: 640px;
+}
+
+.entry-editor-privacy {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  color: var(--text-soft);
+  margin-bottom: 18px;
+}
+
+.entry-editor-privacy input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--brass);
+}
+
+.entry-editor-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}

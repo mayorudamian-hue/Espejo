@@ -1,0 +1,26 @@
+.tag-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag-chip {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-soft);
+  transition: background 0.15s var(--ease), color 0.15s var(--ease), border-color 0.15s var(--ease);
+}
+
+.tag-chip:hover {
+  border-color: var(--brass);
+}
+
+.tag-chip.is-selected {
+  background: var(--plum-soft);
+  border-color: var(--plum);
+  color: var(--plum);
+}

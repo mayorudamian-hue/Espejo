@@ -1,0 +1,90 @@
+.auth-layout {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+}
+
+.auth-glass {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 30% 20%, color-mix(in srgb, var(--brass) 30%, transparent) 0%, transparent 45%),
+    radial-gradient(circle at 75% 70%, color-mix(in srgb, var(--plum) 35%, transparent) 0%, transparent 50%),
+    linear-gradient(160deg, var(--bg-elevated), var(--surface));
+}
+
+.auth-glass-glow {
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--brass) 18%, transparent) 0%, transparent 60%);
+  animation: drift 16s ease-in-out infinite alternate;
+}
+
+@keyframes drift {
+  0% { transform: translate(-4%, -3%) scale(1); }
+  100% { transform: translate(4%, 5%) scale(1.08); }
+}
+
+.auth-glass-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 40px;
+}
+
+.auth-glass-mark {
+  font-family: var(--font-display);
+  font-size: 46px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+.auth-glass-tagline {
+  margin-top: 14px;
+  font-size: 15.5px;
+  color: var(--text-soft);
+  max-width: 30ch;
+  margin-inline: auto;
+  line-height: 1.6;
+}
+
+.auth-form-side {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  background: var(--bg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-glass-glow {
+    animation: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .auth-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+
+  .auth-glass {
+    min-height: 180px;
+  }
+
+  .auth-glass-content {
+    padding: 24px;
+  }
+
+  .auth-glass-mark {
+    font-size: 32px;
+  }
+
+  .auth-glass-tagline {
+    display: none;
+  }
+}

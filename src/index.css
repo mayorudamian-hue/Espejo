@@ -1,0 +1,306 @@
+/* ===== Espejo — Tokens de diseño =====
+   Concepto: el espejo no es un tema oscuro de moda ni un panel de datos.
+   Es una superficie que devuelve lo que se le da: cálida con luz de día,
+   honda y serena de noche. Paleta de "vidrio y bronce" en vez de
+   blanco/negro puro, con un dorado apagado como único acento. */
+
+:root {
+  /* --- Color: tema claro (vidrio con luz de día) --- */
+  --bg: #EDEEF2;
+  --bg-elevated: #FFFFFF;
+  --surface: #E1E3EA;
+  --surface-hover: #D6D9E2;
+  --border: #C9CCD6;
+  --text: #1B1E2B;
+  --text-soft: #565B70;
+  --text-faint: #8489A0;
+
+  /* --- Acentos (constantes en ambos temas) --- */
+  --brass: #B8854F;
+  --brass-soft: #E4D2B5;
+  --plum: #6B4357;
+  --plum-soft: #E9DCE3;
+  --sage: #5E7A68;
+  --sage-soft: #DCE6DF;
+  --rose: #A14B4B;
+  --rose-soft: #F1D9D9;
+
+  /* --- Tipografía --- */
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Figtree', system-ui, -apple-system, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+
+  /* --- Forma y movimiento --- */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --shadow-soft: 0 1px 2px rgba(27, 30, 43, 0.04), 0 8px 24px rgba(27, 30, 43, 0.06);
+  --shadow-pop: 0 4px 16px rgba(27, 30, 43, 0.1), 0 16px 40px rgba(27, 30, 43, 0.08);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-theme='dark'] {
+  /* --- Color: tema oscuro (vidrio en penumbra) --- */
+  --bg: #11141F;
+  --bg-elevated: #171B29;
+  --surface: #1C2031;
+  --surface-hover: #252A3D;
+  --border: #323750;
+  --text: #EDEAE2;
+  --text-soft: #B3B6C6;
+  --text-faint: #767B93;
+
+  --brass: #D6A968;
+  --brass-soft: #3A3023;
+  --plum: #C98FAA;
+  --plum-soft: #352636;
+  --sage: #8FB39C;
+  --sage-soft: #1E2C24;
+  --rose: #D08484;
+  --rose-soft: #3A2424;
+
+  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.2), 0 8px 24px rgba(0, 0, 0, 0.3);
+  --shadow-pop: 0 4px 16px rgba(0, 0, 0, 0.35), 0 16px 40px rgba(0, 0, 0, 0.4);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.25s var(--ease), color 0.25s var(--ease);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  margin: 0;
+  color: var(--text);
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button, input, textarea, select {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* Foco visible y consistente en toda la app (accesibilidad) */
+:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 2px;
+}
+
+::placeholder {
+  color: var(--text-faint);
+}
+
+/* Scrollbar discreta */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ===== Utilidades compartidas ===== */
+
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.app-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  color: var(--text-soft);
+  font-family: var(--font-display);
+  font-size: 18px;
+}
+
+.main-content {
+  flex: 1;
+  min-width: 0;
+  padding: 32px 40px 80px;
+  max-width: 920px;
+}
+
+.page-header {
+  margin-bottom: 28px;
+}
+
+.page-header .eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  display: block;
+  margin-bottom: 6px;
+}
+
+.page-header h1 {
+  font-size: 30px;
+}
+
+.page-header .subtitle {
+  color: var(--text-soft);
+  margin-top: 8px;
+  font-size: 15px;
+  max-width: 56ch;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 0.15s var(--ease), border-color 0.15s var(--ease), transform 0.1s var(--ease);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-primary {
+  background: var(--brass);
+  color: #1B1408;
+}
+
+.btn-primary:hover {
+  background: color-mix(in srgb, var(--brass) 88%, white 12%);
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.btn-ghost:hover {
+  background: var(--surface-hover);
+}
+
+.btn-danger {
+  background: transparent;
+  border-color: var(--rose-soft);
+  color: var(--rose);
+}
+
+.btn-danger:hover {
+  background: var(--rose-soft);
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-soft);
+}
+
+.field input,
+.field textarea {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  color: var(--text);
+  transition: border-color 0.15s var(--ease);
+}
+
+.field input:focus,
+.field textarea:focus {
+  border-color: var(--brass);
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 90px;
+  font-family: var(--font-body);
+}
+
+.card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+
+.error-text {
+  color: var(--rose);
+  font-size: 13px;
+  margin-top: -8px;
+  margin-bottom: 12px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 56px 24px;
+  color: var(--text-faint);
+}
+
+.empty-state h3 {
+  color: var(--text-soft);
+  margin-bottom: 8px;
+}
+
+@media (max-width: 760px) {
+  .main-content {
+    padding: 20px 16px 100px;
+  }
+}

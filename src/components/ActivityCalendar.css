@@ -1,0 +1,67 @@
+.activity-calendar {
+  padding: 22px 24px;
+}
+
+.activity-calendar-header h3 {
+  font-size: 16px;
+  text-transform: capitalize;
+  margin-bottom: 14px;
+}
+
+.activity-calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 6px;
+}
+
+.activity-calendar-weekdays span {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-faint);
+  text-align: center;
+}
+
+.activity-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.activity-cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11.5px;
+  font-family: var(--font-mono);
+  border-radius: 6px;
+  color: var(--text-faint);
+  background: var(--surface);
+}
+
+.activity-cell.is-blank {
+  background: transparent;
+}
+
+.activity-cell.is-today {
+  box-shadow: 0 0 0 1.5px var(--brass) inset;
+  color: var(--text);
+  font-weight: 700;
+}
+
+.activity-cell[data-intensity='1'] {
+  background: var(--brass-soft);
+  color: var(--text);
+}
+
+.activity-cell[data-intensity='2'] {
+  background: color-mix(in srgb, var(--brass) 55%, var(--brass-soft) 45%);
+  color: #1B1408;
+  font-weight: 600;
+}
+
+.activity-cell[data-intensity='3'] {
+  background: var(--brass);
+  color: #1B1408;
+  font-weight: 700;
+}
