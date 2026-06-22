@@ -6,6 +6,7 @@ import './Navbar.css'
 const NAV_ITEMS = [
   { to: '/', label: 'Panel', icon: PanelIcon },
   { to: '/diario', label: 'Diario', icon: JournalIcon },
+  { to: '/comunidad', label: 'Comunidad', icon: CommunityIcon },
   { to: '/perfil', label: 'Perfil', icon: ProfileIcon },
 ]
 
@@ -72,6 +73,17 @@ function JournalIcon() {
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
       <path d="M5 4h11a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.7.46L12 18l-5.3 1.96A.5.5 0 0 1 6 19.5V5a1 1 0 0 1-1-1Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
       <path d="M9 8h6M9 11.5h6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+function CommunityIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+      <circle cx="8.5" cy="8" r="2.8" stroke="currentColor" strokeWidth="1.6" />
+      <path d="M3 19c.6-3 2.6-4.6 5.5-4.6S13.4 16 14 19" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+      <circle cx="16.5" cy="7.5" r="2.2" stroke="currentColor" strokeWidth="1.6" />
+      <path d="M15 14.3c2.7.2 4.3 1.7 4.8 4.2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
     </svg>
   )
 }

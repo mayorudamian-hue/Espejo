@@ -1,0 +1,82 @@
+.review-card {
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-left: 3px solid var(--border);
+}
+
+.review-card.status-pending {
+  border-left-color: var(--brass);
+}
+
+.review-card.status-approved {
+  border-left-color: var(--sage);
+}
+
+.review-card.status-rejected {
+  border-left-color: var(--rose);
+}
+
+.review-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.review-card-question {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.review-card-badge {
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 3px 10px;
+  white-space: nowrap;
+}
+
+.badge-pending {
+  background: var(--brass-soft);
+  color: var(--brass);
+}
+
+.badge-approved {
+  background: var(--sage-soft);
+  color: var(--sage);
+}
+
+.badge-rejected {
+  background: var(--rose-soft);
+  color: var(--rose);
+}
+
+.review-card-content {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+.review-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.review-card-author {
+  font-size: 12.5px;
+  color: var(--text-faint);
+}
+
+.review-card-actions {
+  display: flex;
+  gap: 8px;
+}

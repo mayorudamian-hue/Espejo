@@ -1,9 +1,10 @@
 import { useState, type FormEvent } from 'react'
 import { useAuth } from '../context/AuthContext'
+import { syncPublicProfile } from '../lib/publicProfile'
 import './Profile.css'
 
 export default function Profile() {
-  const { profile, saveProfile } = useAuth()
+  const { user, profile, saveProfile } = useAuth()
   const [displayName, setDisplayName] = useState(profile?.displayName ?? '')
   const [bio, setBio] = useState(profile?.bio ?? '')
   const [quote, setQuote] = useState(profile?.quote ?? '')
@@ -15,7 +16,16 @@ export default function Profile() {
     e.preventDefault()
     setSaving(true)
     try {
-      await saveProfile({ displayName: displayName.trim(), bio: bio.trim(), quote: quote.trim(), photoURL: photoURL.trim() || null })
+      const cleanPhoto = photoURL.trim() || null
+      await saveProfile({ displayName: displayName.trim(), bio: bio.trim(), quote: quote.trim(), photoURL: cleanPhoto })
+      if (user) {
+        await syncPublicProfile(user.uid, {
+          displayName: displayName.trim(),
+          bio: bio.trim(),
+          quote: quote.trim(),
+          photoURL: cleanPhoto,
+        })
+      }
       setSavedJustNow(true)
       setTimeout(() => setSavedJustNow(false), 2500)
     } finally {
@@ -28,7 +38,10 @@ export default function Profile() {
       <div className="page-header">
         <span className="eyebrow">Perfil</span>
         <h1>Quién eres en este espejo</h1>
-        <p className="subtitle">Esta información es tuya. Más adelante podrás decidir qué parte compartir.</p>
+        <p className="subtitle">
+          Tu nombre, foto, biografía y frase se muestran a quien abra un enlace de invitación que generes en
+          "Comunidad". Tu diario nunca se comparte.
+        </p>
       </div>
 
       <form className="profile-form card" onSubmit={handleSubmit}>

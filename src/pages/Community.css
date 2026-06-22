@@ -1,0 +1,41 @@
+.community-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.community-tab {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-soft);
+}
+
+.community-tab:hover {
+  border-color: var(--brass);
+}
+
+.community-tab.is-active {
+  background: var(--plum-soft);
+  border-color: var(--plum);
+  color: var(--plum);
+}
+
+.community-panel {
+  max-width: 720px;
+}
+
+.memory-wall-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+@media (max-width: 600px) {
+  .community-tabs {
+    flex-wrap: wrap;
+  }
+}

@@ -1,16 +1,20 @@
 rules_version = '2';
 
-// Reglas de Fase 1.
-// Principio: cada usuario únicamente puede leer y escribir SUS PROPIOS datos.
-// Las entradas son privadas por defecto (el campo isPrivate vive en el documento,
-// pero a nivel de seguridad ya estamos restringiendo todo a la propietaria/o).
+// Reglas de Fase 1 + Fase 2.
 //
-// Nota para Fase 2 (página pública / invitaciones):
-// cuando se agregue la página pública limitada, vamos a necesitar abrir lectura
-// pública de un subconjunto de campos del perfil (nombre, foto, bio) — no de las
-// entradas del diario — y crear una colección separada para comentarios de
-// invitados con reglas propias de moderación. No reemplazar este archivo entero:
-// ampliarlo con reglas nuevas y específicas por colección.
+// Fase 1 — principio: cada usuario únicamente puede leer y escribir SUS
+// PROPIOS datos privados (perfil completo, entradas del diario).
+//
+// Fase 2 — invitaciones, página pública y muro de recuerdos:
+// - `publicProfiles/{uid}`: copia deliberadamente limitada del perfil
+//   (nombre, foto, bio, frase). Es la ÚNICA colección de perfil legible
+//   públicamente — nunca el perfil privado completo, nunca el diario.
+// - `invites/{token}`: el enlace de invitación. Lectura pública para poder
+//   validar el link (no expone nada sensible, solo a qué uid pertenece).
+// - `comments/{id}`: cualquiera puede CREAR un comentario pendiente (así
+//   funciona la invitación a invitados sin cuenta), pero solo el dueño/a
+//   puede leer los pendientes/rechazados, cambiar su estado o borrarlos.
+//   El público solo puede leer los que ya están `approved`.
 
 service cloud.firestore {
   match /databases/{database}/documents {
@@ -25,6 +29,47 @@ service cloud.firestore {
 
       allow create: if request.auth != null
         && request.resource.data.uid == request.auth.uid;
+    }
+
+    match /publicProfiles/{uid} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    match /invites/{token} {
+      // Lectura pública: necesaria para que la página de invitación valide
+      // el enlace y sepa a qué perfil corresponde.
+      allow read: if true;
+      allow create: if request.auth != null && request.resource.data.ownerUid == request.auth.uid;
+      allow update, delete: if request.auth != null && resource.data.ownerUid == request.auth.uid;
+    }
+
+    match /comments/{commentId} {
+      // Cualquiera (con o sin cuenta) puede dejar un recuerdo, siempre
+      // pendiente de moderación y con contenido razonable.
+      allow create: if request.resource.data.status == 'pending'
+        && request.resource.data.ownerUid is string
+        && request.resource.data.content is string
+        && request.resource.data.content.size() > 0
+        && request.resource.data.content.size() < 2000;
+
+      // El público solo ve lo aprobado (muro de recuerdos).
+      allow read: if resource.data.status == 'approved';
+
+      // El dueño/a puede ver y moderar todo lo suyo, sin tocar el
+      // contenido ni la autoría — solo el estado.
+      allow read: if request.auth != null && resource.data.ownerUid == request.auth.uid;
+
+      allow update: if request.auth != null
+        && resource.data.ownerUid == request.auth.uid
+        && request.resource.data.content == resource.data.content
+        && request.resource.data.question == resource.data.question
+        && request.resource.data.authorName == resource.data.authorName
+        && request.resource.data.isAnonymous == resource.data.isAnonymous
+        && request.resource.data.ownerUid == resource.data.ownerUid
+        && request.resource.data.status in ['pending', 'approved', 'rejected'];
+
+      allow delete: if request.auth != null && resource.data.ownerUid == request.auth.uid;
     }
   }
 }

@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { HashRouter, Routes, Route } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import { ThemeProvider } from './context/ThemeContext'
 import ProtectedRoute from './components/ProtectedRoute'
@@ -9,6 +9,8 @@ import Dashboard from './pages/Dashboard'
 import Journal from './pages/Journal'
 import EntryForm from './pages/EntryForm'
 import Profile from './pages/Profile'
+import Community from './pages/Community'
+import PublicMemoryPage from './pages/PublicMemoryPage'
 
 function AppLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -23,7 +25,7 @@ export default function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <BrowserRouter>
+        <HashRouter>
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/registro" element={<Register />} />
@@ -78,8 +80,21 @@ export default function App() {
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/comunidad"
+              element={
+                <ProtectedRoute>
+                  <AppLayout>
+                    <Community />
+                  </AppLayout>
+                </ProtectedRoute>
+              }
+            />
+
+            {/* Página pública: sin ProtectedRoute ni AppLayout, accesible sin sesión. */}
+            <Route path="/m/:token" element={<PublicMemoryPage />} />
           </Routes>
-        </BrowserRouter>
+        </HashRouter>
       </AuthProvider>
     </ThemeProvider>
   )
